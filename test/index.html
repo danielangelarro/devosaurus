@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Devosaurus Test Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 15px;
+            margin: 5px;
+            cursor: pointer;
+        }
+        #search-input {
+            padding: 10px;
+            width: 300px;
+        }
+        .menu-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+        }
+        .dark-mode {
+            background-color: #333;
+            color: white;
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+    </style>
+</head>
+<body>
+    <h1>Devosaurus Testing Page</h1>
+    
+    <div id="status" class="status info">
+        Initializing Devosaurus library...
+    </div>
+    
+    <div class="test-section">
+        <h2>Navigation Tests</h2>
+        <button id="home-btn">Go Home</button>
+        <button id="products-btn">View Products</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>Form Tests</h2>
+        <input type="text" id="search-input" placeholder="Search...">
+        <button id="search-btn">Search</button>
+        <br><br>
+        <input type="text" id="email" placeholder="Email">
+        <input type="text" id="name" placeholder="Name">
+        <input type="text" id="phone" placeholder="Phone">
+    </div>
+    
+    <div class="test-section">
+        <h2>DOM Tests</h2>
+        <button class="menu-button">Menu</button>
+        <button id="theme-toggle">Toggle Theme</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>Viewport Tests</h2>
+        <div style="height: 1000px; background: linear-gradient(to bottom, #f0f0f0, #ccc);">
+            <p>Scroll down to see more content...</p>
+        </div>
+        <footer>
+            <h3>Footer Section</h3>
+            <p>This is the footer content for scroll testing.</p>
+        </footer>
+    </div>
+
+    <script type="module">
+        // Import the built library
+        import { initDevosaurus, Actions } from '/dist/index.js';
+        
+        // Status element
+        const statusEl = document.getElementById('status');
+        
+        try {
+            // Initialize Devosaurus
+            const devo = initDevosaurus({
+                language: 'en-US',
+                showUI: true
+            });
+            
+            statusEl.className = 'status success';
+            statusEl.textContent = 'Devosaurus library loaded successfully!';
+            
+            // Add test commands
+            // Navigation commands
+            devo.addCommand('go home', ['go home', 'home page'], 
+                Actions.goTo('/')
+            );
+            
+            devo.addCommand('view products', ['view products', 'products page'], 
+                Actions.goTo('/products')
+            );
+            
+            devo.addCommand('reload page', ['reload', 'refresh'], 
+                Actions.reload()
+            );
+            
+            // DOM commands
+            devo.addCommand('open menu', ['open menu', 'menu'], 
+                Actions.click('.menu-button')
+            );
+            
+            devo.addCommand('toggle theme', ['dark mode', 'toggle theme'], 
+                Actions.toggleBodyClass('dark-mode')
+            );
+            
+            devo.addCommand('debug layout', ['debug', 'show layout'], 
+                Actions.debugLayout('red')
+            );
+            
+            // Form commands
+            devo.addCommand('fill search', ['fill search', 'search for'], 
+                Actions.type('#search-input', 'test search term')
+            );
+            
+            devo.addCommand('fill form', ['fill form', 'complete form'], 
+                Actions.Forms.fillMagic()
+            );
+            
+            // Viewport commands
+            devo.addCommand('scroll to bottom', ['scroll down', 'bottom'], 
+                Actions.Viewport.scrollToBottom()
+            );
+            
+            devo.addCommand('scroll to top', ['scroll up', 'top'], 
+                Actions.Viewport.scrollToTop()
+            );
+            
+            devo.addCommand('go to footer', ['footer', 'view footer'], 
+                Actions.Viewport.scrollToElement('footer')
+            );
+            
+            // Utility commands
+            devo.addCommand('clear storage', ['clear data', 'delete storage'], 
+                Actions.clear()
+            );
+            
+            // Display registered commands for reference
+            console.log('Registered commands:', devo.getCommands());
+            
+        } catch (error) {
+            statusEl.className = 'status error';
+            statusEl.textContent = `Error loading Devosaurus: ${error.message}`;
+            console.error('Error loading Devosaurus:', error);
+        }
+    </script>
+</body>
+</html>
